@@ -61,6 +61,7 @@ pipeline {
         }
         steps {
             withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
+              dir("${env.WORKSPACE}") {
                 sh '''
                     git config user.email "pinak251990@gmail.com"
                     git config user.name "pinak0012025"
