@@ -59,16 +59,9 @@ pipeline {
             GIT_REPO_NAME = "Jenkins-Zero-To-Hero"
             GIT_USER_NAME = "pinak0012025"
         }
-    stage('Checkout') {
-          steps {
-          checkout scm  // ✅ This pulls your repo and enables Git commands
-          }
-      }
-    
         steps {
             withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                 sh '''
-                    git config user.email "pinak251990@gmail.com"
                     git config user.name "pinak0012025"
                     BUILD_NUMBER=${BUILD_NUMBER}
                     sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
