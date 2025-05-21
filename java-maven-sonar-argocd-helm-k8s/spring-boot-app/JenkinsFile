@@ -58,9 +58,9 @@ pipeline {
   }
   steps {
     withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
-      sh '''
-        git clone https://github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git repo-temp2
-        cd repo-temp2
+      sh """
+        git clone https://github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git repo-temp3
+        cd repo-temp3
         git config user.email "pinak251990@gmail.com"
         git config user.name "Pinak Das"
         sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
@@ -69,7 +69,7 @@ pipeline {
         # Set remote URL with token embedded for push authentication
         git remote set-url origin https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git
         git push origin HEAD:main
-      '''
+      """
             }
         }
     }
