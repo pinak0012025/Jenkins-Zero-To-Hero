@@ -20,7 +20,7 @@ pipeline {
       }
     }
     stage('Static Code Analysis') {
-  environment {
+    environment {
     SONAR_URL = "http://172.17.0.1:9000"
   }
   steps {
