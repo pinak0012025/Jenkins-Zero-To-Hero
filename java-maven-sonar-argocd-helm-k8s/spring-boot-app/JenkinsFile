@@ -59,8 +59,8 @@ pipeline {
   steps {
     withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
       sh '''
-        git clone https://github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git repo-temp4
-        cd repo-temp4
+        git clone https://github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git repo-temp5
+        cd repo-temp5
         git config user.email "pinak251990@gmail.com"
         git config user.name "Pinak Das"
         sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
