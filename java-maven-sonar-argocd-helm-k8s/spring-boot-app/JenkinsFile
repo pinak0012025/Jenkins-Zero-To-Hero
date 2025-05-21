@@ -57,7 +57,7 @@ pipeline {
     GIT_USER_NAME = "pinak0012025"
   }
   steps {
-    withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
+    withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
       sh '''
         git clone https://github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git repo-temp5
         cd repo-temp5
