@@ -58,9 +58,9 @@ pipeline {
         }
         steps {
             withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
-                sh '''
-                    git clone https://github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git repo-temp
-                    cd repo-temp
+                sh """
+                    git clone https://github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git repo-temp1
+                    cd repo-temp1
                     git config user.email "pinak251990@gmail.com"
                     git config user.name "Pinak Das"
                     BUILD_NUMBER=${BUILD_NUMBER}
@@ -68,7 +68,7 @@ pipeline {
                     git add java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
                     git commit -m "Update deployment image to version ${BUILD_NUMBER}"
                     git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
-                '''
+                """
             }
         }
     }
