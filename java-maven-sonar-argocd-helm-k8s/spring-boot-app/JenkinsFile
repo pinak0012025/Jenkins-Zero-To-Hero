@@ -58,30 +58,18 @@ pipeline {
   }
   steps {
     withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
-      sh '''
-        # Clean up any previous repo if it exists
-        rm -rf repo-temp3
+     sh """
+      rm -rf repo-temp3
+      git clone https://x-access-token:${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git repo-temp4
+      cd repo-temp4
+      git config user.email "pinak251990@gmail.com"
+      git config user.name "Pinak Das"
+      sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
+      git add java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
+      git commit -m "Update deployment image to version ${BUILD_NUMBER}"
+      git push https://x-access-token:${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git HEAD:main
+     """
 
-        # Clone the repo
-        git clone https://github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git repo-temp3
-        cd repo-temp3
-
-        # Configure Git identity
-        git config user.email "pinak251990@gmail.com"
-        git config user.name "pinak0012025"
-
-        # Update the deployment file
-        sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
-
-        git add java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
-        git commit -m "Update deployment image to version ${BUILD_NUMBER}"
-
-        # Configure git to use token for authentication
-        git config credential.helper "!f() { echo username=x-access-token; echo password=${GITHUB_TOKEN}; }; f"
-
-        # Push the change
-        git push https://github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git HEAD:main
-      '''
       }
      }
    }
